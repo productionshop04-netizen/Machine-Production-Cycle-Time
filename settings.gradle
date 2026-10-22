@@ -1,16 +1,19 @@
-plugins {
-    id 'com.android.application'
-}
 
-android {
-    namespace 'com.liugong.machineproductioncycletime'
-    compileSdk 35
-
-    defaultConfig {
-        applicationId 'com.liugong.machineproductioncycletime'
-        minSdk 23
-        targetSdk 35
-        versionCode 1
-        versionName '1.0.0'
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
     }
 }
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "MachineProductionCycleTime"
+include(":app")
