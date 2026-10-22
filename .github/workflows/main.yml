@@ -33,19 +33,26 @@ jobs:
 
 
       
+      
       - name: Install required Android SDK packages
         shell: bash
+        env:
+          ANDROID_HOME: /usr/local/lib/android/sdk
         run: |
-          SDK_ROOT="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
-          SDKMANAGER="$(find "$SDK_ROOT/cmdline-tools" -type f -name sdkmanager | sort -V | tail -n 1)"
+          set -e
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager 2>/dev/null | sort -V | tail -n 1)"
 
           if [ -z "$SDKMANAGER" ]; then
-            echo "ERROR: sdkmanager not found"
+            echo "ERROR: sdkmanager not found in $ANDROID_HOME"
             exit 1
           fi
 
-          yes | "$SDKMANAGER" --licenses
+          echo "Using SDK manager: $SDKMANAGER"
+          "$SDKMANAGER" --version
+          "$SDKMANAGER" --update
           "$SDKMANAGER" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          yes | "$SDKMANAGER" --licenses || true
+
 
 
       - name: Set up Gradle
